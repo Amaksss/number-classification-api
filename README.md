@@ -3,8 +3,7 @@
 ## Table of Contents
 1. [Project Description](#Project-Description)
 2. [Installation](#installation)
-3. [API Documentation](#api-documentation)
-4. 
+3. [API Documentation](#api-documentation) 
 
    
 
