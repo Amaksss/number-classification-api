@@ -68,7 +68,7 @@ async function getFunFact (number) {
 async function classifyNumber (req, res) {
     const number = parseInt(req.query.number);
 
-    if (isNaN(number)) {
+    if (isNaN(number) || !Number.isInteger(Number(number))) {
         return res.status(400).json ({ number:req.query.number, error:true});
     }
 
