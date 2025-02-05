@@ -66,26 +66,37 @@ async function getFunFact (number) {
 
 //Function to classify number
 async function classifyNumber (req, res) {
-    const number = parseInt(req.query.number);
+    //const number = parseInt(req.query.number);
+    const { number } = req.query;
+
+    if(!number) {
+        return res.status(400).json({
+            error: true,
+            message: "please provide a number in the query parameter. Example: /api/classify-number?number=371"
+        })
+    }
 
     if (isNaN(number) || !Number.isInteger(Number(number))) {
         return res.status(400).json ({ number, error:true});
     }
 
 
-    const funFact = await getFunFact(number);
+    
+    const num = parseInt(number, 10)
 
     // ✅ Corrected properties array logic
     const properties = [];
-    if (isArmstrong(number)) properties.push('armstrong');
-    properties.push(isOdd(number) ? 'odd' : 'even'); // Always push odd/even
+    if (isArmstrong(num)) properties.push('armstrong');
+    properties.push(isOdd(num) ? 'odd' : 'even'); // Always push odd/even
+
+    const funFact = await getFunFact(num);
 
     res.json({
         number,
-        is_prime: isPrime(number),
-        is_perfect: isPerfect(number),
+        is_prime: isPrime(num),
+        is_perfect: isPerfect(num),
         properties,
-        digit_sum: digitSum(number),
+        digit_sum: digitSum(num),
         fun_fact: funFact
     });
 };
