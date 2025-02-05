@@ -27,10 +27,11 @@ function isPerfect (number) {
 
 //Function to chcek if a number is armstrong
 function isArmstrong (number) {
-    const digits = number.toString().split('').map(Number);
+    const absNumber = Math.abs(number);
+    const digits = absNumber.toString().split('').map(Number);
     const power = digits.length;
     const sum = digits.reduce((acc, digits) => acc + Math.pow(digits, power), 0) //sum of digits power
-    return sum === number;
+    return sum === absNumber;
 }
 
 //Function to check if a number is odd
@@ -41,7 +42,7 @@ return number % 2 !== 0
 
 //Function to calculate the digit sum
 function digitSum (number) {
-    return number
+    return Math.abs(number)
     .toString()
     .split('')
     .map(Number)
@@ -74,12 +75,16 @@ async function classifyNumber (req, res) {
 
     const funFact = await getFunFact(number);
 
+    // ✅ Corrected properties array logic
+    const properties = [];
+    if (isArmstrong(number)) properties.push('armstrong');
+    properties.push(isOdd(number) ? 'odd' : 'even'); // Always push odd/even
+
     res.json({
         number,
         is_prime: isPrime(number),
         is_perfect: isPerfect(number),
-        properties: [...(isArmstrong(number) ? ['armstrong'] : []),
-                    isOdd(number) ? 'odd' : 'even' ],
+        properties,
         digit_sum: digitSum(number),
         fun_fact: funFact
     });
